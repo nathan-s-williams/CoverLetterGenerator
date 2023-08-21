@@ -1,11 +1,12 @@
+import os
 import shutil
 from datetime import datetime
 
 
 class CoverLetter:
     #  Cover Letter templates.
-    web_template_source = "cover_letter_templates/cover_letter_template_web.txt"
-    template_destination = "cover_letter_output"
+    web_template_source = "./cover_letter_templates/cover_letter_template_web.txt"
+    template_destination = "./cover_letter_temp_files/"
 
     def __init__(self, version):
         # Attributes
@@ -40,7 +41,8 @@ class CoverLetter:
     # Class Actions
     def create_template(self):
         if self._version == "web":
-            self._cover_letter = CoverLetter.template_destination + "/" + str(datetime.now())
+            self._cover_letter = (CoverLetter.template_destination + self._version +
+                                  "_cover_letter " + str(datetime.now()))
             shutil.copy(CoverLetter.web_template_source, self._cover_letter)
 
     def insert_data(self):
@@ -50,4 +52,6 @@ class CoverLetter:
         pass
 
     def clean_up(self):
-        pass
+        # clean up temp files
+        for file in os.listdir(CoverLetter.template_destination):
+            os.remove(os.path.join(CoverLetter.template_destination, file))
