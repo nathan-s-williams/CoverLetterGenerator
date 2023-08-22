@@ -4,19 +4,19 @@ Nathan Williams
 
 nate88williams@gmail.com
 
-(((TODAY’S DATE)))
+___DATE___
 
 Dear Hiring Manager,
 
-I am writing to express my interest in the (((JOB TITLE))) position at (((COMPANY NAME))). I recently received a bachelor's degree in computer science which provides me with a strong foundation in programming. I am proficient in Java, Python, and web programming languages like HTML, CSS, and JavaScript. I believe my skills and experience make me well-suited to contribute to your team.
+I am writing to express my interest in the ___JOBTITLE___ position at ___COMPANYNAME___. I recently received a bachelor's degree in computer science which provides me with a strong foundation in programming. I am proficient in Java, Python, and web programming languages like HTML, CSS, and JavaScript. I believe my skills and experience make me well-suited to contribute to your team.
 
 I am confident that my computer science studies and work background helped me become a successful software engineer. I have a thorough knowledge of data structures, algorithms, software engineering, machine learning, big data management, and databases. I was also a part of a school organization that built web applications for the student body. Here, I gained a rich understanding of web programming, including hands-on experience in front-end development using React to build user interfaces. I also dedicated personal time to enhancing my skills in HTML, CSS, and vanilla JavaScript. Furthermore, I have practical experience in creating full stack applications using the Jakarta EE framework, implementing the 3-tier model in my Advanced Java class. Finally, my work experience taught me the importance of writing clean and efficient code in order to optimize performance and enhance maintainability. I am eager to use these skills to drive successful projects at your company.
 
 Aside from my technical background, I have a wealth of soft skills that will be helpful to your company. I am a team player and I do not shy away from working with others to accomplish the task at hand. My previous experience required me to work with cross-functional leaders in the company to complete various projects. It was important for me to understand their work and aspirations to perform the data analysis needed for the project. I firmly believe that collaborating as a team not only enhances our performance but also facilitates mutual learning and growth.
 
-I am excited about the opportunity to join (((COMPANY NAME))). I am confident that my technical skills, strong work ethic, and passion for software development make me a valuable asset to your team. I would appreciate the opportunity to discuss further how my qualifications align with your needs.
+I am excited about the opportunity to join ___COMPANYNAME___. I am confident that my technical skills, strong work ethic, and passion for software development make me a valuable asset to your team. I would appreciate the opportunity to discuss further how my qualifications align with your needs.
 
-Thank you for considering my application. I have attached my resume to this application for your review. I look forward to the possibility of discussing how my skills and experiences align with the (((JOB TITLE))) role at your company. Please feel free to reach out to me at your convenience via email at nate88williams@gmail.com or by phone at 972-979-2846.
+Thank you for considering my application. I have attached my resume to this application for your review. I look forward to the possibility of discussing how my skills and experiences align with the ___JOBTITLE___ role at your company. Please feel free to reach out to me at your convenience via email at nate88williams@gmail.com or by phone at 972-979-2846.
 
 Thank you for your time and consideration.
 
