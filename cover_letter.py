@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 from datetime import datetime
 
@@ -11,10 +12,10 @@ class CoverLetter:
     def __init__(self, version):
         # Attributes
         self._version = version
-        self._date = ""
-        self._cover_letter = ""
-        self._company = ""
-        self._role = ""
+        self._date = None
+        self._cover_letter = None
+        self._company = None
+        self._role = None
 
         self.create_template()
 
@@ -46,7 +47,33 @@ class CoverLetter:
             shutil.copy(CoverLetter.web_template_source, self._cover_letter)
 
     def insert_data(self):
-        pass
+        # Check if data is present
+        if self._date is None or self._role is None or self._company is None:
+            missing_data = []
+            if self._date is None:
+                missing_data.append("Date")
+            if self._role is None:
+                missing_data.append("Role")
+            if self._company is None:
+                missing_data.append("Company")
+
+            missing_data_as_string = ""
+            while len(missing_data) > 0:
+                if len(missing_data) == 1:
+                    missing_data_as_string += missing_data.pop()
+                else:
+                    missing_data_as_string += missing_data.pop() + ", "
+            raise Exception(missing_data_as_string + " is missing.")
+
+        with open(self._cover_letter, "r") as f:
+            contents = f.read()
+
+        re.sub("___DATE___", self._date, contents)
+        re.sub("___JOBTITLE___", self._role, contents)
+        re.sub("___COMPANYNAME___", self._company, contents)
+
+        with open(self._cover_letter, "w") as f:
+            f.write(contents)
 
     def generate_word_doc(self):
         pass
