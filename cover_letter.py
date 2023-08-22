@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 from datetime import datetime
+from docx import Document
 
 
 class CoverLetter:
@@ -16,7 +17,9 @@ class CoverLetter:
         self._cover_letter = None
         self._company = None
         self._role = None
-
+        self._cover_letter_content = None
+        self._template_populated = False
+        # Initialize template
         self.create_template()
 
     # Setters
@@ -49,36 +52,45 @@ class CoverLetter:
     def insert_data(self):
         # Check if data is present
         if self._date is None or self._role is None or self._company is None:
-            missing_data = []
+            list_of_missing_data = []
             if self._date is None:
-                missing_data.append("Date")
+                list_of_missing_data.append("Date")
             if self._role is None:
-                missing_data.append("Role")
+                list_of_missing_data.append("Role")
             if self._company is None:
-                missing_data.append("Company")
+                list_of_missing_data.append("Company")
 
-            missing_data_as_string = ""
-            while len(missing_data) > 0:
-                if len(missing_data) == 1:
-                    missing_data_as_string += missing_data.pop()
+            missing_data = ""
+            while len(list_of_missing_data) > 0:
+                if len(list_of_missing_data) == 1:
+                    missing_data += list_of_missing_data.pop()
                 else:
-                    missing_data_as_string += missing_data.pop() + ", "
-            raise Exception(missing_data_as_string + " is missing.")
+                    missing_data += list_of_missing_data.pop() + ", "
+            raise Exception(missing_data + " is missing.")
 
         with open(self._cover_letter, "r") as f:
-            contents = f.read()
+            self._cover_letter_content = f.read()
 
-        re.sub("___DATE___", self._date, contents)
-        re.sub("___JOBTITLE___", self._role, contents)
-        re.sub("___COMPANYNAME___", self._company, contents)
+        self._cover_letter_content = re.sub("___DATE___", self._date, self._cover_letter_content)
+        self._cover_letter_content = re.sub("___JOBTITLE___", self._role, self._cover_letter_content)
+        self._cover_letter_content = re.sub("___COMPANYNAME___", self._company, self._cover_letter_content)
 
         with open(self._cover_letter, "w") as f:
-            f.write(contents)
+            f.write(self._cover_letter_content)
 
-    def generate_word_doc(self):
-        pass
+        # Checkpoint reached: template populated
+        self._template_populated = True
 
-    def clean_up(self):
-        # clean up temp files
+    def generate_word_doc(self, file_destination="./"):
+        if not self._template_populated:
+            raise Exception("Template has not been created yet.")
+
+        document = Document()
+        document.add_paragraph(self._cover_letter_content)
+        document.save(os.path.join(file_destination, "Cover_Letter_Nathan_Williams.docx"))
+
+    @staticmethod
+    def clean_up():
+        # clean up temp files and any other artifacts
         for file in os.listdir(CoverLetter.template_destination):
             os.remove(os.path.join(CoverLetter.template_destination, file))
