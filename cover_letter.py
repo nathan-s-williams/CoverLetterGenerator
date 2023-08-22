@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import string
 from datetime import datetime
 from docx import Document
 
@@ -10,7 +11,7 @@ class CoverLetter:
     web_template_source = "./cover_letter_templates/cover_letter_template_web.txt"
     template_destination = "./cover_letter_temp_files/"
 
-    def __init__(self, version):
+    def __init__(self, version: string):
         # Attributes
         self._version = version
         self._date = None
@@ -23,13 +24,13 @@ class CoverLetter:
         self.create_template()
 
     # Setters
-    def set_company(self, company_name):
+    def set_company(self, company_name: string):
         self._company = company_name
 
-    def set_job_role(self, job_name):
+    def set_job_role(self, job_name: string):
         self._role = job_name
 
-    def set_date(self, date):
+    def set_date(self, date: string):
         self._date = date
 
     # Getters
@@ -81,7 +82,7 @@ class CoverLetter:
         # Checkpoint reached: template populated
         self._template_populated = True
 
-    def generate_word_doc(self, file_destination="./"):
+    def generate_word_doc(self, file_destination: string = "./"):
         if not self._template_populated:
             raise Exception("Template has not been created yet.")
 
