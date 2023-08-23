@@ -90,6 +90,11 @@ class CoverLetter:
         document.add_paragraph(self._cover_letter_content)
         document.save(os.path.join(file_destination, "Cover_Letter_Nathan_Williams.docx"))
 
+    def generate_text_doc(self, file_destination: string = "./"):
+        if not self._template_populated:
+            raise Exception("Template has not been created yet.")
+        shutil.copy(self._cover_letter, os.path.join(file_destination, "Cover_Letter_Nathan_Williams.docx"))
+
     @staticmethod
     def clean_up():
         # clean up temp files and any other artifacts
