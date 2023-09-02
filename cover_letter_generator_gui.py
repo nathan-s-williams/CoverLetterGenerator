@@ -3,9 +3,12 @@ import PySimpleGUI as sg
 sg.theme("dark blue 3")
 
 input_column = [
-    [sg.Text("Choose a Cover Letter Type")],
+    [sg.Text("Cover Letter Type")],
     [sg.Radio("Web", "RADIO-TYPE", default=True),
      sg.Radio("New", "RADIO-TYPE")],
+    [sg.Text("File Format")],
+    [sg.Radio("Word", "RADIO-FORMAT", default=True),
+     sg.Radio("Text", "RADIO-FORMAT")],
     [sg.Text("Enter Date")],
     [sg.InputText(key="-DATE-", size=(35, 1)), sg.CalendarButton("Calendar", target="-DATE-")],
     [sg.Text("Enter Company")],
@@ -25,7 +28,7 @@ layout = [
 
 ]
 
-window = sg.Window(title="Cover Letter Generator", layout=layout, margins=(300, 300))
+window = sg.Window(title="Cover Letter Generator", layout=layout, margins=(200, 100))
 
 while True:
     event, values = window.read()
