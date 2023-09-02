@@ -82,7 +82,7 @@ class CoverLetter:
         # Checkpoint reached: template populated
         self._template_populated = True
 
-    def generate_word_doc(self, file_destination: string = "./"):
+    def generate_word_doc(self, file_destination: string = "./cover_letter_outputs"):
         if not self._template_populated:
             raise Exception("Template has not been created yet.")
 
@@ -90,10 +90,10 @@ class CoverLetter:
         document.add_paragraph(self._cover_letter_content)
         document.save(os.path.join(file_destination, "Cover_Letter_Nathan_Williams.docx"))
 
-    def generate_text_doc(self, file_destination: string = "./"):
+    def generate_text_doc(self, file_destination: string = "./cover_letter_outputs"):
         if not self._template_populated:
             raise Exception("Template has not been created yet.")
-        shutil.copy(self._cover_letter, os.path.join(file_destination, "Cover_Letter_Nathan_Williams.docx"))
+        shutil.copy(self._cover_letter, os.path.join(file_destination, "Cover_Letter_Nathan_Williams.txt"))
 
     @staticmethod
     def clean_up():
