@@ -11,19 +11,19 @@ class CoverLetter:
     web_template_source = "./cover_letter_templates/cover_letter_template_web.txt"
     template_destination = "./cover_letter_temp_files/"
 
-    def __init__(self, version: string):
+    def __init__(self):
         # Attributes
-        self._version = version
+        self._version = None
         self._date = None
         self._cover_letter = None
         self._company = None
         self._role = None
         self._cover_letter_content = None
         self._template_populated = False
-        # Initialize template
-        self.create_template()
 
-    # Setters
+    # ********************************************************************
+    # --Setters
+    # ********************************************************************
     def set_company(self, company_name: string):
         self._company = company_name
 
@@ -33,7 +33,16 @@ class CoverLetter:
     def set_date(self, date: string):
         self._date = date
 
-    # Getters
+    def set_version(self, version: string):
+        self._version = version
+        self._create_template()
+
+    def set_cover_letter_content(self, content: string):
+        self._cover_letter_content = content
+
+    # ********************************************************************
+    # --Getters
+    # ********************************************************************
     def get_company(self):
         return self._company
 
@@ -49,15 +58,26 @@ class CoverLetter:
     def get_cover_letter_content(self):
         return self._cover_letter_content
 
-    # Class Actions
-    def create_template(self):
+    # ********************************************************************
+    # --Class Methods
+    # ********************************************************************
+    def _create_template(self):
+        # **************************
+        # Create web template
+        # **************************
         if self._version == "web":
             self._cover_letter = (CoverLetter.template_destination + self._version +
                                   "_cover_letter " + str(datetime.now()))
             shutil.copy(CoverLetter.web_template_source, self._cover_letter)
 
+            # Read content to cover_letter_content class variable
+            with open(self._cover_letter, "r") as f:
+                self._cover_letter_content = f.read()
+
     def insert_data(self):
-        # Check if data is present
+        # **************************
+        # Check data
+        # **************************
         if self._date is None or self._role is None or self._company is None:
             list_of_missing_data = []
             if self._date is None:
@@ -75,17 +95,24 @@ class CoverLetter:
                     missing_data += list_of_missing_data.pop() + ", "
             raise Exception(missing_data + " is missing.")
 
-        with open(self._cover_letter, "r") as f:
-            self._cover_letter_content = f.read()
+        # **************************
+        # Insert Data
+        # **************************
 
         self._cover_letter_content = re.sub("___DATE___", self._date, self._cover_letter_content)
         self._cover_letter_content = re.sub("___JOBTITLE___", self._role, self._cover_letter_content)
         self._cover_letter_content = re.sub("___COMPANYNAME___", self._company, self._cover_letter_content)
 
+        # **************************
+        # Write Content
+        # **************************
+
         with open(self._cover_letter, "w") as f:
             f.write(self._cover_letter_content)
 
-        # Checkpoint reached: template populated
+        # **************************
+        # Checkpoint: template populated
+        # **************************
         self._template_populated = True
 
     def generate_word_doc(self, file_destination: string = "./cover_letter_outputs"):
@@ -105,4 +132,6 @@ class CoverLetter:
     def clean_up():
         # clean up temp files and any other artifacts
         for file in os.listdir(CoverLetter.template_destination):
+            if file[0] == ".":
+                continue
             os.remove(os.path.join(CoverLetter.template_destination, file))
