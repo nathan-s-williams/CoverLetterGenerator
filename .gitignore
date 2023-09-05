@@ -6,8 +6,9 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # Project-specific files
-cover_letter_temp_files/*
-cover_letter_outputs/*
+cover_letter_temp_files/**/*.txt
+cover_letter_outputs/**/*.docx
+cover_letter_outputs/**/*.txt
 
 # User-specific stuff
 .idea/**/workspace.xml
