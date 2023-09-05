@@ -43,6 +43,12 @@ class CoverLetter:
     def get_date(self):
         return self._date
 
+    def get_version(self):
+        return self._version
+
+    def get_cover_letter_content(self):
+        return self._cover_letter_content
+
     # Class Actions
     def create_template(self):
         if self._version == "web":
