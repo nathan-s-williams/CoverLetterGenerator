@@ -7,9 +7,14 @@ from docx import Document
 
 
 class CoverLetter:
-    #  Cover Letter templates.
-    web_template_source = "./cover_letter_templates/cover_letter_template_web.txt"
-    template_destination = "./cover_letter_temp_files/"
+    # ********************************************************************
+    # --Static Class Variables
+    # ********************************************************************
+    _web_template_source = "./cover_letter_templates/cover_letter_template_web.txt"
+    _template_destination = "./cover_letter_temp_files/"
+
+    VERSION_TYPE_WEB = "web"  # Change to unique object for validation
+    VERSION_TYPE_NEW = "new"
 
     def __init__(self):
         # Attributes
@@ -26,15 +31,23 @@ class CoverLetter:
     # ********************************************************************
     def set_company(self, company_name: string):
         self._company = company_name
+        if self._template_populated:
+            self._template_populated = False
 
     def set_job_role(self, job_name: string):
         self._role = job_name
+        if self._template_populated:
+            self._template_populated = False
 
     def set_date(self, date: string):
         self._date = date
+        if self._template_populated:
+            self._template_populated = False
 
     def set_version(self, version: string):
         self._version = version
+        if self._template_populated:
+            self._template_populated = False
         self._create_template()
 
     def set_cover_letter_content(self, content: string):
@@ -65,21 +78,25 @@ class CoverLetter:
         # **************************
         # Create web template
         # **************************
-        if self._version == "web":
-            self._cover_letter = (CoverLetter.template_destination + self._version +
+        if self._version is CoverLetter.VERSION_TYPE_WEB:  # object equality
+            self._cover_letter = (CoverLetter._template_destination + self._version +
                                   "_cover_letter " + str(datetime.now()))
-            shutil.copy(CoverLetter.web_template_source, self._cover_letter)
+            shutil.copy(CoverLetter._web_template_source, self._cover_letter)
 
             # Read content to cover_letter_content class variable
             with open(self._cover_letter, "r") as f:
                 self._cover_letter_content = f.read()
+        else:
+            raise Exception("Version not defined.")
 
     def insert_data(self):
         # **************************
         # Check data
         # **************************
-        if self._date is None or self._role is None or self._company is None:
+        if self._date is None or self._role is None or self._company is None or self._version is None:
             list_of_missing_data = []
+            if self._version is None:
+                list_of_missing_data.append("Version")
             if self._date is None:
                 list_of_missing_data.append("Date")
             if self._role is None:
@@ -131,7 +148,7 @@ class CoverLetter:
     @staticmethod
     def clean_up():
         # clean up temp files and any other artifacts
-        for file in os.listdir(CoverLetter.template_destination):
+        for file in os.listdir(CoverLetter._template_destination):
             if file[0] == ".":
                 continue
-            os.remove(os.path.join(CoverLetter.template_destination, file))
+            os.remove(os.path.join(CoverLetter._template_destination, file))
