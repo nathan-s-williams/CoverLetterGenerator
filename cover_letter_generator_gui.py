@@ -10,10 +10,10 @@ from typing import List, Dict, Union, Tuple
 # ********************************************************************
 
 def register_field_data(
-                    cover_letter: CoverLetter,
-                    fields: List[str],
-                    value_list: Dict[str, Union[str, List[str], Tuple[str, ...]]]
-                   ) -> None:
+        cover_letter: CoverLetter,
+        fields: List[str],
+        value_list: Dict[str, Union[str, List[str], Tuple[str, ...]]]
+) -> None:
     for field in fields:
         if field == "version":
             if value_list["-WEB-"]:
@@ -89,14 +89,14 @@ while True:
             else:
                 new_cover_letter.generate_text_doc()
 
-            CoverLetter.clean_up()
             new_cover_letter = CoverLetter()
-
             sp.call(["open", "./cover_letter_outputs"])
 
         except Exception as e:
             print(e)
             sg.popup_error(f"An error occurred:\n {str(e)}")
+        finally:
+            CoverLetter.clean_up()
     elif event == "-DATE-":
         if values["-DATE-"] != '':
             date_string = values["-DATE-"]
@@ -108,6 +108,5 @@ while True:
         window["-CONTENT-"].update(new_cover_letter.get_cover_letter_content())
     elif values["-NEW-"]:
         register_field_data(new_cover_letter, ["version"], values)
-
 
 window.close()
