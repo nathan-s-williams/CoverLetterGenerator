@@ -33,6 +33,9 @@ def register_field_data(
 # ********************************************************************
 sg.theme("dark blue 3")
 
+# ***************************
+# --Input Fields
+# ***************************
 input_column = [
     [sg.Text("Enter Cover Letter Details")],
     [
@@ -57,10 +60,16 @@ input_column = [
     [sg.Button("Create"), sg.Button("Cancel")]
 ]
 
+# ***************************
+# --Cover Letter Viewer
+# ***************************
 view_column = [
     [sg.Multiline("Cover Letter content...", size=(100, 50), key="-CONTENT-")]
 ]
 
+# ***************************
+# --Layout with both columns
+# ***************************
 layout = [
     [
         sg.Column(input_column),
@@ -69,13 +78,25 @@ layout = [
 
 ]
 
+# ***************************
+# --Instantiate window and Cover Letter
+# ***************************
 window = sg.Window(title="Cover Letter Generator", layout=layout, margins=(100, 50))
 new_cover_letter = CoverLetter()
 
+# ********************************************************************
+# --Event Loop
+# ********************************************************************
 while True:
     event, values = window.read()
+    # ***************************
+    # --Close Window
+    # ***************************
     if event in (sg.WINDOW_CLOSED, "Cancel"):
         break
+    # ***************************
+    # --Create Cover Letter
+    # ***************************
     elif event == "Create":
         fields_to_populate = ["date", "job", "company"]
         if new_cover_letter.get_version() is None or new_cover_letter.get_version() == "":
@@ -97,12 +118,18 @@ while True:
             sg.popup_error(f"An error occurred:\n {str(e)}")
         finally:
             CoverLetter.clean_up()
+    # ***************************
+    # --Update Date Field
+    # ***************************
     elif event == "-DATE-":
         if values["-DATE-"] != '':
             date_string = values["-DATE-"]
             date_format = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S").date()
             date_format = date_format.strftime("%B %d, %Y")
             window["-DATE-"].update(date_format)
+    # ***************************
+    # --Update View Content
+    # ***************************
     elif values["-WEB-"]:
         register_field_data(new_cover_letter, ["version"], values)
         window["-CONTENT-"].update(new_cover_letter.get_cover_letter_content())
